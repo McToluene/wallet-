@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  zookeeper:
+    container_name: zookeeper
+    image: wurstmeister/zookeeper
+    ports:
+      - 2181:2181
+  kafka:
+    container_name: kafka
+    image: wurstmeister/kafka
+    ports:
+      - 9092:9092
+    volumes:
+      - ./data/kafka:/var/run/docker.sock
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/mongo:/data/db
+  postgres:
+    container_name: postgres
+    image: postgres
+    expose:
+      - 5433
+    ports:
+      - 5433:5433
+    command: -p 5433
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+  
+  customer-service:
+    container_name: customer-service
+    build: ./customer-service
+    ports:
+      - 8082:8080
+    volumes:
+      - ./customer-service:/app
+    environment:
+      - PORT=8082
+      - POSTGRES_URL=postgresql://postgres:postgres@postgres:5433/postgres
+      - KAFKA_BOOSTRAP_SERVERS=kafka:9092
+      - KAFKA_TOPIC=topic1
+    depends_on:
+      - postgres
+      - kafka
+  
+  billing-service:
+    container_name: billing-service
+    build: ./billing-service
+    ports:
+      - 8080:8080
+    volumes:
+      - ./billing-service:/app
+    environment:
+      - PORT=8080
+      - MONGO_URL=mongodb://mongo:27017/billing-service
+      - KAFKA_BOOSTRAP_SERVERS=kafka:9092
+      - KAFKA_TOPIC=topic1
+    depends_on:
+      - mongo
+      - kafka
+  
+  billing-worker-service:
+    container_name: billing-worker-service
+    build: ./billing-worker-service
+    ports:
+      - 8081:8080
+    volumes:
+      - ./billing-worker-service:/app
+    environment:
+      - PORT=8081
+      - KAFKA_BOOSTRAP_SERVERS=kafka:9092
+      - KAFKA_TOPIC=topic1
+    depends_on:
+      - kafka
