@@ -14,6 +14,7 @@ export default async (app: Application) => {
   console.log('Db connected!');
 
   const user = User(db);
+  db.sync();
   const customerService = new CustomerService(user);
   await custerEvent(kafkaLoaded, customerService);
   console.log('Subscriber loaded!');

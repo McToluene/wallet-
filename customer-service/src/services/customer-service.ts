@@ -1,5 +1,6 @@
 import { Model, ModelCtor } from 'sequelize/types';
 import { ICustomerResponse } from '../interfaces/customer-response';
+import { IUser } from '../interfaces/model/IUser';
 
 export default class CustomerService {
   constructor(private readonly userModel: ModelCtor<Model>) {}
@@ -7,7 +8,9 @@ export default class CustomerService {
   private async onAccountCredit(id: string, amount: number) {
     let user = await this.userModel.findOne({ where: { id } });
     if (user) {
-      console.log(user);
+      const values = user.toJSON<IUser>();
+      const balance = amount + parseInt(values.balance);
+      await this.userModel.update({ balance }, { where: { id } });
     }
   }
 

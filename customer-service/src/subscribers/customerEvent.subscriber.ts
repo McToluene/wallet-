@@ -3,7 +3,7 @@ import { ICustomerResponse } from '../interfaces/customer-response';
 import CustomerService from '../services/customer-service';
 
 export default async (kafka: Kafka, customerService: CustomerService) => {
-  const consumer = kafka.consumer({ groupId: 'transaction' });
+  const consumer = kafka.consumer({ groupId: 'customer' });
   await consumer.connect();
   await consumer.subscribe({ topic: 'CUSTOMER_SERVICE', fromBeginning: true });
 
