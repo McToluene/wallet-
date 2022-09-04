@@ -16,4 +16,15 @@ export default (app: Router, transactionService: TransactionService) => {
     await transactionService.createTransaction(data, TransactionType.CREDIT);
     return res.status(201).json({ message: 'Deposit transaction initated' });
   });
+
+  app.get('/transactions/:id', async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const errors = [];
+    if (!id) errors.push({ message: 'id is required' });
+    // return errors
+    if (errors.length > 0) return res.status(400).json({ errors });
+
+    const transactions = await transactionService.getTransactions(id);
+    return res.status(200).json({ data: transactions });
+  });
 };

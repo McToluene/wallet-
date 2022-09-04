@@ -22,6 +22,10 @@ export default class TransactionService {
     await this.sendTransactionDetail(addedTransaction);
   }
 
+  async getTransactions(id: string) {
+    return await this.transactionModel.find();
+  }
+
   private async sendTransactionDetail(transaction: ITransaction) {
     await this.transactionEvent.performTransaction(transaction);
   }
