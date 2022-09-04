@@ -1,0 +1,12 @@
+{
+  "name": "wallet",
+  "version": "1.0.0",
+  "description": "Demo event driven architecture",
+  "main": "index.js",
+  "repository": "https://github.com/McToluene/wallet-.git",
+  "author": "McToluene <xclusiveniggaz10@live.com>",
+  "license": "MIT",
+  "scripts": {
+    "install": "(cd billing-service && yarn) && (cd billing-worker-service && yarn) && (cd customer-service && yarn)"
+  }
+}
