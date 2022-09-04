@@ -6,7 +6,7 @@ export default class BillingService {
 
   async deposit(data: IBillingWorkerRequest) {
     await new Promise((res, rej) => {
-      setTimeout(() => res(this.billingEvent.onBillingCustomerSuccess(data.transactionRef)), 1000);
+      setTimeout(() => res(this.billingEvent.onBillingCustomerSuccess(data.transactionRef)), 100);
     });
   }
 }

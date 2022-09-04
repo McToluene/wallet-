@@ -23,7 +23,7 @@ export default class TransactionService {
   }
 
   private async sendTransactionDetail(transaction: ITransaction) {
-    await this.transactionEvent.billCustomer(transaction);
+    await this.transactionEvent.performTransaction(transaction);
   }
 
   private async creditCustomer(transaction: ITransaction) {

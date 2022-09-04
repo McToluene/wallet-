@@ -50,7 +50,7 @@ services:
       - PORT=8082
       - POSTGRES_URL=postgresql://postgres:postgres@postgres:5433/postgres
       - KAFKA_BOOSTRAP_SERVERS=kafka:9092
-      - KAFKA_TOPIC=topic1
+      - KAFKA_TOPIC=CUSTOMER_SERVICE
     depends_on:
       - postgres
       - kafka
@@ -66,7 +66,7 @@ services:
       - PORT=8080
       - MONGO_URL=mongodb://mongo:27017/billing-service
       - KAFKA_BOOSTRAP_SERVERS=kafka:9092
-      - KAFKA_TOPIC=topic1
+      - KAFKA_TOPIC=BILLING_SERVICE
     depends_on:
       - mongo
       - kafka
@@ -81,6 +81,6 @@ services:
     environment:
       - PORT=8081
       - KAFKA_BOOSTRAP_SERVERS=kafka:9092
-      - KAFKA_TOPIC=topic1
+      - KAFKA_TOPIC=BILLING_WORKER_SERVICE
     depends_on:
       - kafka

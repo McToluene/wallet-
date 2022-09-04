@@ -11,7 +11,7 @@ export default class TransactionEvent {
     this.producer.connect();
   }
 
-  async billCustomer(transaction: ITransaction) {
+  async performTransaction(transaction: ITransaction) {
     try {
       const data: IBillingWorkerRequest = {
         amount: transaction.amount,
