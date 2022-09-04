@@ -9,10 +9,8 @@ export default (app: Router, kafka: Kafka, transactionService: TransactionServic
   const transactionEvent = new TransactionEvent(kafka);
 
   app.post('/deposit', async (req: Request, res: Response) => {
-    // call customer service to validate customer
     const data = req.body as ITransactionDto;
-    const transaction = await transactionService.createTransaction(data, TransactionType.CREDIT);
-    await transactionEvent.billCustomer(transaction);
+    await transactionService.createTransaction(data, TransactionType.CREDIT);
     return res.status(201).json({ message: 'Deposit transaction initate' });
   });
 };

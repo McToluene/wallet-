@@ -8,13 +8,7 @@ export default async (kafka: Kafka, transactionService: TransactionService) => {
   await consumer.subscribe({ topic: 'BILLING_SERVICE', fromBeginning: true });
 
   await consumer.run({
-    eachMessage: async ({ topic, partition, message }) => {
-      console.log({
-        partition,
-        offset: message.offset,
-        value: message.value?.toString(),
-      });
-
+    eachMessage: async ({ message }) => {
       const transcton: IBillingWorkerResponse = message.value
         ? JSON.parse(message.value.toString())
         : null;

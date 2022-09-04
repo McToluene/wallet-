@@ -10,7 +10,7 @@ export default async (app: Application) => {
   await data();
   console.log('Db connected!');
 
-  // should load a DI here but for a small app this will still work
+  // should load a DI here but it's like a overkill for the small app
   const kafkaLoaded = kafka();
   const transactionService = new TransactionService();
   await transactionEventSubscriber(kafkaLoaded, transactionService);
