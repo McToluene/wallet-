@@ -12,10 +12,10 @@ export default async (app: Application) => {
 
   // should load a DI here but it's like a overkill for the small app
   const kafkaLoaded = kafka();
-  const transactionService = new TransactionService();
+  const transactionService = new TransactionService(kafkaLoaded);
   await transactionEventSubscriber(kafkaLoaded, transactionService);
   console.log('Subscriber loaded!');
 
-  express(app, kafkaLoaded, transactionService);
+  express(app, transactionService);
   console.log('Express loaded!');
 };
