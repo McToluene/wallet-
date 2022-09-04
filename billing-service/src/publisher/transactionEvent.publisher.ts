@@ -1,4 +1,5 @@
 import { Kafka, Producer } from 'kafkajs';
+import config from '../config/config';
 
 import { IBillingWorkerRequest } from '../interfaces/billing-worker-request';
 import { ICustomerRequest } from '../interfaces/dto/customer.request';
@@ -19,7 +20,7 @@ export default class TransactionEvent {
         transactionRef: transaction.transactionRef,
       };
       await this.producer.send({
-        topic: 'BILLING_WORKER_SERVICE',
+        topic: config.workerTopic,
         messages: [{ value: JSON.stringify(data) }],
       });
     } catch (error) {
@@ -35,7 +36,7 @@ export default class TransactionEvent {
     };
     try {
       await this.producer.send({
-        topic: 'CUSTOMER_SERVICE',
+        topic: config.customerTopic,
         messages: [{ value: JSON.stringify(data) }],
       });
     } catch (error) {

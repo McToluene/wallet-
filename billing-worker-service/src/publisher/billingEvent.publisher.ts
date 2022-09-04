@@ -1,4 +1,5 @@
 import { Kafka, Producer } from 'kafkajs';
+import config from '../config/config';
 import { IBillingWorkerResponse } from '../interfaces/billing-worker-response';
 
 export default class BillingEvent {
@@ -15,7 +16,7 @@ export default class BillingEvent {
         transactionRef,
       };
       await this.producer.send({
-        topic: 'BILLING_SERVICE',
+        topic: config.billingTopic,
         messages: [{ value: JSON.stringify(data) }],
       });
     } catch (error) {
