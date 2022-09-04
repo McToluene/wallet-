@@ -4,8 +4,8 @@ A basic wallet microservice architecutre
 
 ## Running the app
 Move to the project directory
-run yarn
-once yarn is done then run docker-compose up
+run "yarn" and
+once yarn is done then run "docker-compose up"
 
 ## Testing
 Once the docker-compose is done.
